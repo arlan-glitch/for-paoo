@@ -546,7 +546,7 @@ function onSend() {
     if (!val) {
         ta.style.borderColor = 'rgba(223,123,21,.8)';
         ta.style.boxShadow = '0 0 22px rgba(223,123,21,.3)';
-        ta.placeholder = 'tulis dulu ya sayang 🥺';
+        ta.placeholder = 'tulis dulu ya sayang 🤨';
         setTimeout(() => {
             ta.style.borderColor = '';
             ta.style.boxShadow = '';
@@ -555,17 +555,20 @@ function onSend() {
         return;
     }
 
-    // --- KODE FORMSPREE DI SINI (SUDAH SIAP PAKAI) ---
-    const form = document.getElementById('loveForm');
+    // --- KODE FORMSPREE PINTAS (LANGSUNG KEBACA DI EMAIL) ---
     fetch("https://formspree.io", {
         method: "POST",
-        body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
+        body: JSON.stringify({ "Pesan dari Doi": val }),
+        headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
     });
-    // ------------------------------------------------
+    // --------------------------------------------------------
 
     fadeOut(document.getElementById('s2'), () => setTimeout(startFW, 288));
 }
+
 
 
 /* ============================================================
