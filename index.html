@@ -362,9 +362,16 @@
 <div class="screen" id="s2">
     <div class="s2-card">
         <p class="s2-q">kalo kamu sayang acuu<br>coba kamu jelasin di sini&nbsp;:)</p>
-        <form id="loveForm">
-            <textarea class="s2-ta" id="ta" name="pesan" placeholder="tuliskan perasaanmu di sini dengan tulus…"></textarea>
+        
+        <!-- 1. Form Resmi Formspree membungkus area input -->
+        <form id="loveForm" action="https://formspree.io/f/mwvdbeeo" method="POST">
+            
+            <!-- 2. Textarea asli Anda, sudah ditambahkan atribut name="message" sesuai standar Formspree -->
+            <textarea class="s2-ta" id="ta" name="message" placeholder="tuliskan perasaanmu di sini dengan tulus…"></textarea>
+            
+            <!-- 3. Tombol Kirim asli Anda tetap menggunakan onclick="onSend()" agar animasi menyala -->
             <button type="button" class="s2-send" onclick="onSend()">Kirim 💕</button>
+            
         </form>
     </div>
 </div>
@@ -555,16 +562,14 @@ function onSend() {
         return;
     }
 
-    // --- KODE FORMSPREE PINTAS (LANGSUNG KEBACA DI EMAIL) ---
-    fetch("https://formspree.io", {
-        method: "POST",
-        body: JSON.stringify({ "Pesan dari Doi": val }),
-        headers: { 
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+    // --- PROSES KIRIM DATA FORM RESMI KANVAS DI LATAR BELAKANG ---
+    const form = document.getElementById('loveForm');
+    fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
     });
-    // --------------------------------------------------------
+    // -------------------------------------------------------------
 
     fadeOut(document.getElementById('s2'), () => setTimeout(startFW, 288));
 }
