@@ -362,17 +362,13 @@
 <div class="screen" id="s2">
     <div class="s2-card">
         <p class="s2-q">kalo kamu sayang acuu<br>coba kamu jelasin di sini&nbsp;:)</p>
-      <form
-  action="https://formspree.io/f/mwvdbeeo"
-  method="POST"
->
-  <label>
-    Email kamu:
-    <input type="email" name="email">
-          placeholder="tuliskan perasaanmu di sini dengan tulus…"></textarea>
-        <button class="s2-send" onclick="onSend()">Kirim 💕</button>
+        <form id="loveForm">
+            <textarea class="s2-ta" id="ta" name="pesan" placeholder="tuliskan perasaanmu di sini dengan tulus…"></textarea>
+            <button type="button" class="s2-send" onclick="onSend()">Kirim 💕</button>
+        </form>
     </div>
 </div>
+
 
 <!-- FIREWORKS CANVAS -->
 <canvas id="fwc"></canvas>
@@ -546,20 +542,31 @@ function onYes() {
 
 function onSend() {
     const val = document.getElementById('ta').value.trim();
-    const ta  = document.getElementById('ta');
+    const ta = document.getElementById('ta');
     if (!val) {
-        ta.style.borderColor  = 'rgba(223,123,21,.8)';
-        ta.style.boxShadow    = '0 0 22px rgba(223,123,21,.3)';
+        ta.style.borderColor = 'rgba(223,123,21,.8)';
+        ta.style.boxShadow = '0 0 22px rgba(223,123,21,.3)';
         ta.placeholder = 'tulis dulu ya sayang 🥺';
         setTimeout(() => {
             ta.style.borderColor = '';
-            ta.style.boxShadow   = '';
-            ta.placeholder = 'tuliskan perasaanmu di sini dengan tulus…';
+            ta.style.boxShadow = '';
+            ta.placeholder = 'tuliskan perasaanmu di sini dengan tulus';
         }, 2500);
         return;
     }
-    fadeOut(document.getElementById('s2'), () => setTimeout(startFW, 280));
+
+    // --- KODE FORMSPREE DI SINI (SUDAH SIAP PAKAI) ---
+    const form = document.getElementById('loveForm');
+    fetch("https://formspree.io", {
+        method: "POST",
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+    });
+    // ------------------------------------------------
+
+    fadeOut(document.getElementById('s2'), () => setTimeout(startFW, 288));
 }
+
 
 /* ============================================================
    FIREWORKS ENGINE
